@@ -18,16 +18,16 @@ pipeline{
 		stage('Build Docker Image'){
 			steps{
 				script{
-					sh 'sudo docker build -t docker-service.jar .'
-					sh 'sudo docker image ls'
+					sh 'docker build -t docker-service.jar .'
+					sh 'docker image ls'
 				}
 			}
 		}
 		stage('Remove Last Image'){
 			steps{
 				script{
-					sh 'sudo docker stop docker-service || true && sudo docker rm docker-service || true'
-					sh 'sudo docker ps -a'
+					sh 'docker stop docker-service || true && docker rm docker-service || true'
+					sh 'docker ps -a'
 				}
 			}
 		}
@@ -35,7 +35,7 @@ pipeline{
 			steps{
 				script{
 					sh 'docker run --name docker-service --rm --detach --privileged -p 8081:8081 docker-service.jar'
-					sh 'sudo docker ps -a'
+					sh 'docker ps -a'
 				}
 			}
 		}
