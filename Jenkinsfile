@@ -18,8 +18,7 @@ pipeline{
 		stage('Initialize'){
 			steps{
 				script{
-        				sh 'def dockerHome = tool \'myDocker\''
-        				sh 'env.PATH = "${dockerHome}/bin:${env.PATH}"'
+        				sh 'curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-17.04.0-ce.tgz && tar xzvf docker-17.04.0-ce.tgz && mv docker/docker /usr/local/bin && rm -r docker docker-17.04.0-ce.tgz'
 				}
 			}
 		}
@@ -42,7 +41,7 @@ pipeline{
 		stage('Deploy Docker Image'){
 			steps{
 				script{
-					sh 'docker run --name docker-service --rm --detach --privileged -p 8081:8081 docker-service.jar'
+					sh 'docker run --name docker-service --rm --detach --privileged -p 8080:8081 docker-service.jar'
 					sh 'docker ps -a'
 				}
 			}
