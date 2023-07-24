@@ -33,8 +33,6 @@ pipeline{
 						--build-arg HTTPS_PROXY=${params.HTTPS_PROXY} \
 						-f Dockerfile ."""
 					docker.build("docker-service")
-					//sh 'docker build -t docker-service.jar .'
-					//sh 'docker image ls'
 				}
 			}
 		}
