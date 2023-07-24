@@ -11,7 +11,7 @@ pipeline{
 		}
 		stage('Build Maven'){
 			steps{
-				checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://bitnuwan@bitbucket.org/bitnuwan/docker-service.git']]])
+				checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/jnuwan/docker-service.git']]])
 				bat 'mvn clean install'
 			}
 		}
