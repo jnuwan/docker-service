@@ -7,7 +7,6 @@ pipeline{
 		stage('Log version info'){
 			steps{
 				sh 'mvn --version'
-				sh 'docker version'
 			}
 		}
 		stage('Build Maven'){
@@ -28,8 +27,14 @@ pipeline{
 		stage('Build Docker Image'){
 			steps{
 				script{
-					sh 'docker build -t docker-service.jar .'
-					sh 'docker image ls'
+					echo "Bulding docker images"
+				        def buildArgs = """\
+						--build-arg HTTP_PROXY=${params.HTTP_PROXY} \
+						--build-arg HTTPS_PROXY=${params.HTTPS_PROXY} \
+						-f Dockerfile ."""
+					docker.build("docker-service")
+					//sh 'docker build -t docker-service.jar .'
+					//sh 'docker image ls'
 				}
 			}
 		}
