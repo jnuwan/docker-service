@@ -7,6 +7,7 @@ pipeline{
 		stage('Log version info'){
 			steps{
 				sh 'mvn --version'
+				sh 'docker version'
 			}
 		}
 		stage('Build Maven'){
@@ -15,7 +16,7 @@ pipeline{
 				sh 'mvn clean install'
 			}
 		}
-		stage('Initialize'){
+		/*stage('Initialize'){
 			steps{
 				script{
         				sh 'curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-17.04.0-ce.tgz'
@@ -23,7 +24,7 @@ pipeline{
 					sh 'mv docker/docker /usr/local/bin && rm -r docker docker-17.04.0-ce.tgz'
 				}
 			}
-		}
+		}*/
 		stage('Build Docker Image'){
 			steps{
 				script{
