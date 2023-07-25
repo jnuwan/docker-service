@@ -35,7 +35,7 @@ pipeline{
 		stage('Deploy Docker Image'){
 			steps{
 				script{
-					sh 'docker run --name docker-service --rm --detach --privileged -p 8080:8081 docker-service.jar'
+					sh 'docker run --name docker-service --rm --detach --privileged -p 8081:8081 docker-service.jar'
 					sh 'docker ps -a'
 				}
 			}
