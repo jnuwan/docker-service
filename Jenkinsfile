@@ -19,8 +19,8 @@ pipeline{
 		stage('Build Docker Image'){
 			steps{
 				script{
-					bat 'docker build -t docker-service.jar .'
-					bat 'docker image ls'
+					sh 'docker build -t docker-service.jar .'
+					sh 'docker image ls'
 				}
 			}
 		}
