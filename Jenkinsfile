@@ -7,32 +7,20 @@ pipeline{
 		stage('Log version info'){
 			steps{
 				sh 'mvn --version'
+				sh 'docker version'
 			}
 		}
 		stage('Build Maven'){
 			steps{
-				checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/jnuwan/docker-service.git']]])
+				checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '689783e6-f933-4776-9d1a-d0a5f73bbc16', url: 'https://github.com/jnuwan/docker-service.git']])
 				sh 'mvn clean install'
 			}
 		}
-		/*stage('Initialize'){
-			steps{
-				script{
-        				sh 'curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-17.04.0-ce.tgz'
-					sh 'tar xzvf docker-17.04.0-ce.tgz'
-					sh 'mv docker/docker /usr/local/bin && rm -r docker docker-17.04.0-ce.tgz'
-				}
-			}
-		}*/
 		stage('Build Docker Image'){
 			steps{
 				script{
-					echo "Bulding docker images"
-				        def buildArgs = """\
-						--build-arg HTTP_PROXY=${params.HTTP_PROXY} \
-						--build-arg HTTPS_PROXY=${params.HTTPS_PROXY} \
-						-f Dockerfile ."""
-					docker.build("docker-service")
+					bat 'docker build -t docker-service.jar .'
+					bat 'docker image ls'
 				}
 			}
 		}
