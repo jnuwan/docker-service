@@ -10,6 +10,15 @@ pipeline{
 				sh 'docker version'
 			}
 		}
+		stage('SonarQube analysis') {
+			steps {
+				withSonarQubeEnv('sonar') {
+					withMaven(maven:'maven') {
+						sh 'mvn clean package sonar:sonar'
+					}
+				}
+			}
+		}
 		stage('Build Maven'){
 			steps{
 				checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '689783e6-f933-4776-9d1a-d0a5f73bbc16', url: 'https://github.com/jnuwan/docker-service.git']])
