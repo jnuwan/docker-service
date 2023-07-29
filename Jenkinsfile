@@ -25,26 +25,27 @@ pipeline{
 				sh 'mvn clean install'
 			}
 		}
-		stage('Build Docker Image'){
+		stage('Remove Docker Image'){
 			steps{
 				script{
-					sh 'docker rmi --force docker-service || true'
-					sh 'docker build -t docker-service .'
+					sh 'docker stop docker-service || true && docker rm docker-service || true'
+					sh 'docker rm docker-service || true && docker rmi --force docker-service || true'
 					sh 'docker image ls'
 				}
 			}
 		}
-		stage('Remove Last Image'){
+		stage('Build New Image'){
 			steps{
 				script{
-					sh 'docker stop docker-service || true && docker rm docker-service || true'
-					sh 'docker ps -a'
+					sh 'docker build -t docker-service .'
+					sh 'docker image ls'
 				}
 			}
 		}
 		stage('Deploy Docker Image'){
 			steps{
 				script{
+					sh 'docker ps -a'
 					sh 'docker run --name docker-service --rm --detach --privileged -p 8081:8081 docker-service'
 					sh 'docker ps -a'
 				}
