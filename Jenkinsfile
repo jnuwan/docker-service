@@ -28,7 +28,8 @@ pipeline{
 		stage('Build Docker Image'){
 			steps{
 				script{
-					sh 'docker build -t docker-service.jar .'
+					sh 'docker rmi docker-service || true'
+					sh 'docker build -t docker-service .'
 					sh 'docker image ls'
 				}
 			}
@@ -44,7 +45,7 @@ pipeline{
 		stage('Deploy Docker Image'){
 			steps{
 				script{
-					sh 'docker run --name docker-service --rm --detach --privileged -p 8081:8081 docker-service.jar'
+					sh 'docker run --name docker-service --rm --detach --privileged -p 8081:8081 docker-service'
 					sh 'docker ps -a'
 				}
 			}
