@@ -28,7 +28,7 @@ pipeline{
 		stage('Build Docker Image'){
 			steps{
 				script{
-					sh 'docker rmi docker-service || true'
+					sh 'docker rmi --force docker-service || true'
 					sh 'docker build -t docker-service .'
 					sh 'docker image ls'
 				}
